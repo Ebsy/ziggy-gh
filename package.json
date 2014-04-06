@@ -1,0 +1,27 @@
+{
+  "name": "ziggy-gh",
+  "version": "0.0.1",
+  "description": "ziggy plugin using the GitHub API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ebsy/ziggy-gh.git"
+  },
+  "keywords": [
+    "ziggy",
+    "irc",
+    "bot",
+    "plugin",
+    "github",
+    "api"
+  ],
+  "author": "Neil Ebrey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ebsy/ziggy-gh/issues"
+  },
+  "homepage": "https://github.com/ebsy/ziggy-gh"
+}
