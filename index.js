@@ -11,7 +11,6 @@ module.exports = function(ziggy) {
   var ghResult = {};
 
   ziggy.on("message", function(user, channel, text){
-    //var channel = config.channels[0];
     var bits = text.split(' ')
     , command = bits.shift()
 
@@ -39,7 +38,6 @@ module.exports = function(ziggy) {
         ghResult = JSON.parse(reponseParts.join("")); //join and parse the data when the request is finished.
         
         if (result.statusCode === 200) {
-           //bot.say(channel, "Link at: " + gitHubReturn.html_url)
            ziggy.say(channel, 
             "GitHub page at: " + ghResult.html_url + " " +
             "Public Repos: " + ghResult.public_repos + " and " + ghResult.public_gists + " Gists. " +
