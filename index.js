@@ -20,6 +20,7 @@ module.exports = function (ziggy) {
       if ((command !== '!gh') || (!bits.length)) {
         return;
       }
+
     var ghUser = bits[0];
     if (bits.length === 1) {
       lookupGitHub(ghUser, null, sayInfo) //pass the user and sayInfo (the function)
@@ -32,36 +33,24 @@ module.exports = function (ziggy) {
     function sayInfo(err, user, data) {
       if (err) {
         switch (err) {
-        case "dataUser":
-          return ziggy.say(channel, "No GitHub account for " + user);
+        case "dataUser": return ziggy.say(channel, "No GitHub account for " + user);
           break;
-        case "dataRepo" :
-          return ziggy.say(channel, "Repo not found. ");
-          break;
-        default:
-          return ziggy.say(channel, "Try again later...");
+        case "dataRepo" : return ziggy.say(channel, "Repo not found. ");
           break;
         }
       }
-      console.log("following IS: " + data.following)
-      if (data.following) { //must be dataUser
-          ziggy.say(channel,
-          "GitHub page at: " + data.html_url + " " +
-          "Public Repos: " + data.public_repos + " and " + data.public_gists +
-          " Gists. " +
-          user + " has " + data.followers +
-          " followers and is following " + data.following + " other users.")
-      }
-      else {
-          ziggy.say(channel,
-          "Repo at: " + data.html_url + " " + "Last update: " +
-          data.updated_at + " repo has " + data.watchers + " star(s). " +
-          "Clone with: " + data.ssh_url)      
-        }
+
+      if (data.following) ziggy.say(channel, "GitHub page at: " + data.html_url + " " +
+          "Public Repos: " + data.public_repos + " and " + data.public_gists + " Gists. " +
+          user + " has " + data.followers + " followers and is following " + 
+          data.following + " other users.")
+      else ziggy.say(channel,
+          "Repo at: " + data.html_url + " " + "Last update: " + data.updated_at + " repo has " + data.watchers + " star(s). " + "Clone with: " + data.ssh_url)      
     } //end say user
   });
-
-  function lookupGitHub(user, repo, callback) { //takes a user and (in this case) sayInfo as a 'callback'
+  
+  //takes a user, repo (if available) and sayInfo as a 'callback'
+  function lookupGitHub(user, repo, callback) { 
     var searchuser = user.toLowerCase();
     ghOptions.path = "/users/" + searchuser;
 
@@ -69,10 +58,6 @@ module.exports = function (ziggy) {
       var searchrepo = repo.toLowerCase();
       ghOptions.path = "/repos/" + searchuser + "/" + searchrepo;
     }
-
-    console.log("USER: " + user)
-    console.log("REPO: " + repo)
-    console.log("PATH: " + ghOptions.path)
 
     https.get(ghOptions, function (res) {
       var chunks = []; //this will hold the 'data chunks'
@@ -84,17 +69,16 @@ module.exports = function (ziggy) {
       });
 
       res.on("end", function () {
-        ghResult = JSON.parse(chunks.join("")); //join and parse the data when the request is finished.
-        console.log("Status code is: " + res.statusCode);
+        //join and parse the data when the request is finished.
+        ghResult = JSON.parse(chunks.join("")); 
         if (res.statusCode === 200) {
             return callback(null, user, ghResult) //null is for no error, send ghResult as 'data'
         }
 
-
         if (!repo) {
           return callback("dataUser", user) //in this case, throw an error
         }
-        return callback("dataRepo")
+        return callback("dataRepo") //callback when repo query ran
       });
 
       res.on('error', function (e) {
