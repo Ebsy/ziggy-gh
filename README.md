@@ -31,6 +31,15 @@ will return
 GitHub page at: https://github.com/Ebsy Public Repos: 12 and 0 Gists. Ebsy has 4 followers and is following 4 other users.
 ```
 
+public details of a repo is also possible with !gh [username] [repo]
+```
+!gh Ebsy ziggy-gh
+```
+will return
+```
+Repo at: https://github.com/Ebsy/ziggy-gh Last update: 2014-04-08T17:56:19Z repo has 1 star(s). Clone with: git@github.com:Ebsy/ziggy-gh.git
+```
+
 More information available at the [GitHub API].
 
 License
