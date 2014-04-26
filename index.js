@@ -21,14 +21,10 @@ module.exports = function (ziggy) {
         return;
       }
 
-    var ghUser = bits[0];
-    if (bits.length === 1) {
-      lookupGitHub(ghUser, null, sayInfo) //pass the user and sayInfo (the function)
-    }
-    if (bits.length === 2) {
-      var ghRepo = bits[1]
-      lookupGitHub(ghUser, ghRepo, sayInfo)
-    }
+    var ghUser = bits[0],
+        ghRepo = bits[1]
+
+    lookupGitHub(ghUser, ghRepo, sayInfo) //pass the user and sayInfo (the function)
 
     function sayInfo(err, user, data) {
       if (err) {
@@ -40,7 +36,7 @@ module.exports = function (ziggy) {
         }
       }
 
-      if (data.following) ziggy.say(channel, "GitHub page at: " + data.html_url + " " +
+      if (!ghRepo) ziggy.say(channel, "GitHub page at: " + data.html_url + " " +
           "Public Repos: " + data.public_repos + " and " + data.public_gists + " Gists. " +
           user + " has " + data.followers + " followers and is following " + 
           data.following + " other users.")
